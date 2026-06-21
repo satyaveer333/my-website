@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Web Developer</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #333; background: #f9f9f9; }
+        header { background: #2c3e50; color: #fff; padding: 2rem 0; text-align: center; }
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+        h1, h2 { margin-top: 0; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: .5rem; font-weight: bold; }
+        input, textarea { width: 100%; padding: .75rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { display: inline-block; background: #3498db; color: #fff; padding: .75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+        button:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hi, I'm a Web Developer</h1>
+        <p>I build clean, fast, and responsive websites for small businesses.</p>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h2>About Me & My Services</h2>
+            <p>As a student and freelance developer, I specialize in creating custom digital storefronts. Whether you run a local bakery, a boutique cake shop, or a consulting firm, I can build a website that fits your exact needs.</p>
+            <ul>
+                <li>Custom Website Design & Development</li>
+                <li>Responsive Mobile-Friendly Interfaces</li>
+                <li>Fast Setup and Delivery</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>Start a Project</h2>
+            <p>Tell me a little bit about what you need, and I'll get back to you with a plan.</p>
+            <form action="/.netlify/functions/request" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name / Business Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="requirements">Project Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="5" placeholder="E.g., I need a 3-page website for my new cake shop..." required></textarea>
+                </div>
+                <button type="submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
