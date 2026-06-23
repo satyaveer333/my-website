@@ -49,7 +49,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return events.APIGatewayProxyResponse{StatusCode: http.StatusBadRequest, Body: "Failed to parse form data"}, nil
 	}
 
-	// 1. Fetch Environment Variables (Only Email credentials now)
 	smtpUser := os.Getenv("SMTP_USER")
 	smtpPass := os.Getenv("SMTP_PASS")
 
@@ -58,7 +57,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError, Body: "Server configuration error"}, nil
 	}
 
-	// 2. Map form data to struct
 	req := ProjectRequest{
 		ClientName:  values.Get("name"),
 		Email:       values.Get("email"),
@@ -66,7 +64,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		SubmittedAt: time.Now(),
 	}
 
-	// 3. Construct the Data Table HTML
 	tableHTML := fmt.Sprintf(`
 		<table style="width: 100%%; max-width: 600px; border-collapse: collapse; margin-top: 20px; font-family: sans-serif;">
 			<tr style="background-color: #f2f2f2;">
@@ -88,11 +85,15 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		</table>
 	`, req.ClientName, req.Email, req.Requirement)
 
-	// 4. Send Email to Freelancer (You)
+	// 1. Send Email to Freelancer (Synchronous - no "go" keyword)
 	freelancerBody := `<h3>New Project Request</h3><p>You have received a new lead from your portfolio:</p>` + tableHTML
-	go sendEmail(smtpUser, "New Freelance Lead: "+req.ClientName, freelancerBody, smtpUser, smtpPass)
+	err = sendEmail(smtpUser, "New Freelance Lead: "+req.ClientName, freelancerBody, smtpUser, smtpPass)
+	if err != nil {
+		log.Printf("Failed to send email to freelancer: %v\n", err)
+		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError, Body: "Failed to route internal mail"}, nil
+	}
 
-	// 5. Send Email to Client
+	// 2. Send Email to Client (Synchronous)
 	clientBody := fmt.Sprintf(`
 		<div style="font-family: sans-serif; color: #333;">
 			<h2>Thank you for reaching out, %s!</h2>
@@ -105,15 +106,22 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 			<p><strong>Satyaveer Singh</strong><br>Freelance Web Developer</p>
 		</div>
 	`, req.ClientName, tableHTML)
-	go sendEmail(req.Email, "Received: Your Web Development Request", clientBody, smtpUser, smtpPass)
+	
+	err = sendEmail(req.Email, "Received: Your Web Development Request", clientBody, smtpUser, smtpPass)
+	if err != nil {
+		log.Printf("Failed to send email to client: %v\n", err)
+		// We don't necessarily want to show an ugly error if the client email bounces, 
+		// but we log it to be safe.
+	}
 
-	// 6. Return Success Page to the Browser
+	// 3. ONLY return success AFTER emails are safely sent
 	successHTML := fmt.Sprintf(`
 		<div style="font-family: sans-serif; max-width: 600px; margin: 40px auto; text-align: center;">
-			<h2 style="color: #2ecc71;">Success!</h2>
-			<p>Thanks for reaching out, %s. I have emailed you a confirmation and will be in touch soon.</p>
-			<a href="/" style="color: #3498db; text-decoration: none;">&larr; Back to Portfolio</a>
+			<h2 style="color: #2ecc71;">Transmission Successful</h2>
+			<p style="color: #fff;">Thanks for reaching out, %s. I have emailed you a confirmation and will be in touch soon.</p>
+			<a href="/" style="color: #58a6ff; text-decoration: none; border: 1px solid #58a6ff; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-top: 20px;">&larr; Return to Terminal</a>
 		</div>
+		<style>body { background-color: #0d1117; }</style>
 	`, req.ClientName)
 
 	return events.APIGatewayProxyResponse{
