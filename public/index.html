@@ -5,182 +5,259 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satyaveer Singh | Freelance Developer</title>
     <style>
-        /* 1. Dynamic Background & Base Styles */
+        /* 1. Base Dark Theme */
         :root {
-            --primary: #4facfe;
-            --secondary: #00f2fe;
-            --text-light: #ffffff;
+            --bg-color: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.85);
+            --border-color: #30363d;
+            --accent: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.4);
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            color: var(--text-light);
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* 2. Floating Tech Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        /* 2. Entrance Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .tech-word {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.03);
+            font-size: 2.5rem;
+            font-weight: 800;
+            white-space: nowrap;
+            user-select: none;
+            animation: floatUp linear infinite;
         }
 
-        .animate-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(-5deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(5deg); opacity: 0; }
         }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
 
-        /* 3. Glassmorphism Layout */
+        /* Randomizing the floating words */
+        .tech-word:nth-child(1) { left: 5%; animation-duration: 25s; animation-delay: 0s; }
+        .tech-word:nth-child(2) { left: 25%; animation-duration: 30s; animation-delay: -5s; font-size: 1.5rem; }
+        .tech-word:nth-child(3) { left: 45%; animation-duration: 22s; animation-delay: -12s; font-size: 3rem; }
+        .tech-word:nth-child(4) { left: 65%; animation-duration: 28s; animation-delay: -2s; font-size: 2rem; }
+        .tech-word:nth-child(5) { left: 85%; animation-duration: 35s; animation-delay: -15s; font-size: 1.8rem; }
+        .tech-word:nth-child(6) { left: 15%; animation-duration: 20s; animation-delay: -8s; font-size: 2.2rem; }
+        .tech-word:nth-child(7) { left: 75%; animation-duration: 26s; animation-delay: -20s; font-size: 2.8rem; }
+        .tech-word:nth-child(8) { left: 55%; animation-duration: 32s; animation-delay: -10s; font-size: 1.6rem; }
+
+        /* 3. Professional Layout */
         header {
             text-align: center;
-            padding: 4rem 1rem 2rem;
+            padding: 5rem 1rem 3rem;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            color: var(--accent);
         }
 
         .subtitle {
             font-size: 1.2rem;
-            opacity: 0.9;
-            letter-spacing: 1px;
+            color: var(--accent);
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+            font-weight: 600;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
-            padding: 0 1rem 3rem;
+            max-width: 750px;
+            padding: 0 1rem 4rem;
             box-sizing: border-box;
+            z-index: 1;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
+        .pro-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: border-color 0.3s ease;
         }
 
-        .glass-card:hover {
-            transform: translateY(-5px);
+        .pro-card:hover {
+            border-color: var(--accent);
         }
 
-        /* 4. Dynamic Form Styling */
+        h2 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        p, li {
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        ul li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* 4. Form Controls */
         .form-group {
             margin-bottom: 1.5rem;
-            position: relative;
         }
 
         label {
             display: block;
             margin-bottom: 0.5rem;
+            color: var(--text-muted);
             font-size: 0.9rem;
-            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: white;
+            padding: 14px;
+            background: #010409;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #ffffff;
             font-size: 1rem;
             box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            font-family: inherit;
+            transition: all 0.2s ease;
         }
 
         input:focus, textarea:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
         button {
             width: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
+            background: transparent;
+            color: var(--accent);
+            padding: 16px;
+            border: 2px solid var(--accent);
+            border-radius: 6px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-top: 1rem;
         }
 
         button:hover {
-            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-            transform: scale(1.02);
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
+
+        /* Entrance Animations */
+        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
 
-    <header class="animate-up">
-        <h1>Satyaveer Singh</h1>
-        <p class="subtitle">Freelance Web Developer</p>
+    <div class="bg-animation">
+        <div class="tech-word">GOLANG</div>
+        <div class="tech-word">{ REST API }</div>
+        <div class="tech-word">DOCKER</div>
+        <div class="tech-word">KUBERNETES</div>
+        <div class="tech-word">&lt;HTML5 /&gt;</div>
+        <div class="tech-word">CSS3</div>
+        <div class="tech-word">JAVASCRIPT</div>
+        <div class="tech-word">BACKEND</div>
+    </div>
+
+    <header class="fade-in">
+        <h1>Satyaveer <span>Singh</span></h1>
+        <div class="subtitle">Freelance Web Developer</div>
     </header>
 
     <div class="container">
-        <div class="glass-card animate-up delay-1">
-            <h2>About My Services</h2>
-            <p>I specialize in building clean, fast, and responsive digital storefronts. Whether you run a local bakery, a boutique cake shop, or a consulting firm, I engineer custom websites tailored to your exact business needs.</p>
-            <ul style="line-height: 1.8;">
-                <li>🚀 Custom Website Design & Development</li>
-                <li>📱 Responsive Mobile-Friendly Interfaces</li>
-                <li>⚡ Fast Setup, Hosting, and Delivery</li>
+        <div class="pro-card fade-in delay-1">
+            <h2>About My Architecture</h2>
+            <p>I engineer highly performant, custom web applications for small businesses. Whether you need a digital storefront for a cake shop or a corporate landing page, I build software that is fast, secure, and tailored to your operations.</p>
+            <ul>
+                <li>Custom Frontend Design & Development</li>
+                <li>Secure Backend Routing & Processing</li>
+                <li>Responsive, Mobile-First Interfaces</li>
             </ul>
         </div>
 
-        <div class="glass-card animate-up delay-2">
-            <h2>Start a Project</h2>
-            <p>Tell me a little bit about what you need, and I will get back to you with a strategy.</p>
+        <div class="pro-card fade-in delay-2">
+            <h2>Initialize Project</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Transmit your project requirements below. I will review the specifications and reply with a development strategy.</p>
             
             <form action="/.netlify/functions/request" method="POST">
                 <div class="form-group">
-                    <label for="name">Your Name / Business Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    <label for="name">Client / Business Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    <label for="email">Contact Email</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="requirements">Project Requirements</label>
-                    <textarea id="requirements" name="requirements" rows="5" placeholder="E.g., I need a 3-page website for my new cake shop with a gallery..." required></textarea>
+                    <label for="requirements">System Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="6" placeholder="Describe the scope of your website..." required></textarea>
                 </div>
-                <button type="submit">Submit Request</button>
+                <button type="submit">Deploy Request</button>
             </form>
         </div>
     </div>

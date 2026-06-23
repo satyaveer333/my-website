@@ -12,15 +12,13 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type ProjectRequest struct {
-	ClientName  string    `bson:"client_name"`
-	Email       string    `bson:"email"`
-	Requirement string    `bson:"requirement"`
-	SubmittedAt time.Time `bson:"submitted_at"`
+	ClientName  string
+	Email       string
+	Requirement string
+	SubmittedAt time.Time
 }
 
 // Helper function to send HTML emails
@@ -30,7 +28,6 @@ func sendEmail(toEmail, subject, htmlBody, smtpUser, smtpPass string) error {
 
 	auth := smtp.PlainAuth("", smtpUser, smtpPass, smtpHost)
 
-	// Construct the email headers and body
 	headers := "From: Satyaveer Singh <" + smtpUser + ">\r\n" +
 		"To: " + toEmail + "\r\n" +
 		"Subject: " + subject + "\r\n" +
@@ -52,37 +49,21 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return events.APIGatewayProxyResponse{StatusCode: http.StatusBadRequest, Body: "Failed to parse form data"}, nil
 	}
 
-	// 1. Fetch Environment Variables
-	mongoURI := os.Getenv("MONGODB_URI")
-	smtpUser := os.Getenv("SMTP_USER") // Your Gmail address
-	smtpPass := os.Getenv("SMTP_PASS") // Your Gmail App Password
+	// 1. Fetch Environment Variables (Only Email credentials now)
+	smtpUser := os.Getenv("SMTP_USER")
+	smtpPass := os.Getenv("SMTP_PASS")
 
-	if mongoURI == "" || smtpUser == "" || smtpPass == "" {
-		log.Println("Error: Missing environment variables")
+	if smtpUser == "" || smtpPass == "" {
+		log.Println("Error: Missing email environment variables")
 		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError, Body: "Server configuration error"}, nil
 	}
 
-	// 2. Database Connection & Insertion
-	clientOptions := options.Client().ApplyURI(mongoURI)
-	client, err := mongo.Connect(ctx, clientOptions)
-	if err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError, Body: "Database connection failed"}, nil
-	}
-	defer client.Disconnect(ctx)
-
-	collection := client.Database("freelanceDB").Collection("client_requests")
-
+	// 2. Map form data to struct
 	req := ProjectRequest{
 		ClientName:  values.Get("name"),
 		Email:       values.Get("email"),
 		Requirement: values.Get("requirements"),
 		SubmittedAt: time.Now(),
-	}
-
-	_, err = collection.InsertOne(ctx, req)
-	if err != nil {
-		log.Printf("DB Insert Error: %v", err)
-		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError, Body: "Failed to save data"}, nil
 	}
 
 	// 3. Construct the Data Table HTML
