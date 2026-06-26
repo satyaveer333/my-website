@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satyaveer Singh | Freelance Developer</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* 1. Base Dark Theme */
+        /* 1. Base Variables & Theme */
         :root {
-            --bg-color: #0d1117;
-            --card-bg: rgba(22, 27, 34, 0.85);
-            --border-color: #30363d;
-            --accent: #58a6ff;
-            --accent-glow: rgba(88, 166, 255, 0.4);
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
+            --bg-color: #030712;
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0c102b 0%, #030712 100%);
+            --card-bg: rgba(17, 24, 39, 0.45);
+            --card-glow: rgba(56, 189, 248, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-hover: rgba(56, 189, 248, 0.35);
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --success: #34d399;
+            --success-glow: rgba(52, 211, 153, 0.2);
+            --error: #f87171;
+            --error-glow: rgba(248, 113, 113, 0.2);
         }
 
         body {
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
             background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -30,7 +44,7 @@
             position: relative;
         }
 
-        /* 2. Floating Tech Background Animation */
+        /* 2. Floating Tech Background Elements */
         .bg-animation {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -39,14 +53,52 @@
             pointer-events: none;
         }
 
+        .blob {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -2;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: drift 25s infinite alternate ease-in-out;
+        }
+        .blob-1 {
+            background: #38bdf8;
+            top: -100px;
+            left: -100px;
+        }
+        .blob-2 {
+            background: #818cf8;
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -7s;
+            animation-duration: 30s;
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(120px, 90px) scale(1.15); }
+            100% { transform: translate(-60px, -40px) scale(0.9); }
+        }
+
         .tech-word {
             position: absolute;
-            color: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.02);
+            font-family: 'Fira Code', monospace;
             font-size: 2.5rem;
             font-weight: 800;
             white-space: nowrap;
             user-select: none;
             animation: floatUp linear infinite;
+            pointer-events: auto; /* Allow hover */
+            cursor: default;
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .tech-word:hover {
+            color: rgba(56, 189, 248, 0.35);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+            transform: scale(1.15) rotate(3deg);
         }
 
         @keyframes floatUp {
@@ -56,7 +108,7 @@
             100% { transform: translateY(-20vh) rotate(5deg); opacity: 0; }
         }
 
-        /* Randomizing the floating words */
+        /* Tech Tags positioning */
         .tech-word:nth-child(1) { left: 5%; animation-duration: 25s; animation-delay: 0s; }
         .tech-word:nth-child(2) { left: 25%; animation-duration: 30s; animation-delay: -5s; font-size: 1.5rem; }
         .tech-word:nth-child(3) { left: 45%; animation-duration: 22s; animation-delay: -12s; font-size: 3rem; }
@@ -77,20 +129,35 @@
             font-size: 3.5rem;
             margin: 0;
             color: #ffffff;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
+            font-weight: 800;
         }
 
         h1 span {
-            color: var(--accent);
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
             color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 0.5rem;
+            letter-spacing: 1.5px;
+            margin-top: 0.8rem;
             font-weight: 600;
+            min-height: 24px;
+        }
+
+        .cursor {
+            font-weight: bold;
+            color: var(--accent);
+            animation: blink 0.8s infinite;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
         }
 
         .container {
@@ -103,17 +170,20 @@
 
         .pro-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: border-color 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .pro-card:hover {
-            border-color: var(--accent);
+            border-color: var(--border-color-hover);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px var(--card-glow), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         h2 {
@@ -123,11 +193,13 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
+            font-weight: 700;
         }
 
         p, li {
             line-height: 1.7;
             font-size: 1.05rem;
+            color: var(--text-main);
         }
 
         ul {
@@ -137,81 +209,283 @@
 
         ul li {
             position: relative;
-            padding-left: 1.5rem;
+            padding-left: 1.8rem;
             margin-bottom: 0.8rem;
         }
 
         ul li::before {
-            content: "▹";
+            content: "✓";
             position: absolute;
             left: 0;
             color: var(--accent);
             font-weight: bold;
         }
 
-        /* 4. Form Controls */
+        /* 4. Form Controls & Validation Styles */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         input, textarea {
             width: 100%;
-            padding: 14px;
-            background: #010409;
+            padding: 14px 44px 14px 14px; /* Space on right for validation icons */
+            background: rgba(3, 7, 18, 0.6);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 1rem;
             box-sizing: border-box;
             font-family: inherit;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-glow);
+            background: rgba(3, 7, 18, 0.8);
         }
 
+        /* Validation border indicators */
+        .input-wrapper.valid input, .input-wrapper.valid textarea {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px var(--success-glow);
+        }
+
+        .input-wrapper.invalid input, .input-wrapper.invalid textarea {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px var(--error-glow);
+        }
+
+        /* Input shake animation on validation fail */
+        .input-wrapper.shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Dynamic verification icons inside inputs */
+        .val-icon {
+            position: absolute;
+            right: 16px;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.5);
+            font-weight: bold;
+        }
+
+        .input-wrapper.valid .val-icon {
+            opacity: 1;
+            color: var(--success);
+            transform: scale(1);
+        }
+        .input-wrapper.valid .val-icon::before {
+            content: "✓";
+        }
+
+        .input-wrapper.invalid .val-icon {
+            opacity: 1;
+            color: var(--error);
+            transform: scale(1);
+        }
+        .input-wrapper.invalid .val-icon::before {
+            content: "×";
+            font-size: 1.2rem;
+        }
+
+        /* Real-time error messages */
+        .error-msg {
+            color: var(--error);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(-5px);
+        }
+
+        .error-msg.visible {
+            height: auto;
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Submit Button with Loading states */
         button {
             width: 100%;
             background: transparent;
             color: var(--accent);
             padding: 16px;
             border: 2px solid var(--accent);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 1rem;
+            letter-spacing: 1.5px;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        button:hover {
-            background: var(--accent);
-            color: #000;
-            box-shadow: 0 0 20px var(--accent-glow);
+        button:hover:not(:disabled) {
+            background: var(--accent-gradient);
+            color: #030712;
+            border-color: transparent;
+            box-shadow: 0 0 25px var(--accent-glow);
+            transform: translateY(-2px);
         }
 
-        /* Entrance Animations */
-        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        button:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            border-color: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid currentColor;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.85s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Terminal Logs Success State styling */
+        .terminal-box {
+            background: #020617;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: none;
+        }
+
+        .terminal-box.visible {
+            opacity: 1;
+            transform: scale(1);
+            display: block;
+        }
+
+        .terminal-header {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .term-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .term-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .term-dots .dot.red { background: #ef4444; }
+        .term-dots .dot.yellow { background: #f59e0b; }
+        .term-dots .dot.green { background: #10b981; }
+
+        .term-title {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 500;
+        }
+
+        .terminal-body {
+            padding: 24px;
+            color: #f3f4f6;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            text-align: left;
+            min-height: 250px;
+        }
+
+        .term-log {
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(5px);
+            animation: logFadeIn 0.35s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes logFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .term-success { color: var(--success); font-weight: 600; }
+        .term-accent { color: var(--accent); font-weight: 600; }
+        .term-error { color: var(--error); font-weight: 600; }
+        .term-muted { color: var(--text-muted); }
+
+        /* General layout animations */
+        .fade-in { animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
+        .delay-1 { animation-delay: 0.15s; }
+        .delay-2 { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
+
+    <!-- Drifting Ambient Background Gradients -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
 
     <div class="bg-animation">
         <div class="tech-word">GOLANG</div>
@@ -226,7 +500,7 @@
 
     <header class="fade-in">
         <h1>Satyaveer <span>Singh</span></h1>
-        <div class="subtitle">Freelance Web Developer</div>
+        <div class="subtitle"><span id="typing-text"></span><span class="cursor">|</span></div>
     </header>
 
     <div class="container">
@@ -240,27 +514,304 @@
             </ul>
         </div>
 
-        <div class="pro-card fade-in delay-2">
+        <div class="pro-card fade-in delay-2" id="request-card">
             <h2>Initialize Project</h2>
             <p style="color: var(--text-muted); margin-bottom: 2rem;">Transmit your project requirements below. I will review the specifications and reply with a development strategy.</p>
             
-            <form action="/.netlify/functions/request" method="POST">
+            <form id="request-form" action="/.netlify/functions/request" method="POST" novalidate>
                 <div class="form-group">
                     <label for="name">Client / Business Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <div class="input-wrapper">
+                        <input type="text" id="name" name="name" placeholder="Acme Corporation" autocomplete="organization" required>
+                        <span class="val-icon"></span>
+                    </div>
+                    <div class="error-msg" id="name-error"></div>
                 </div>
+                
                 <div class="form-group">
                     <label for="email">Contact Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" placeholder="contact@acme.com" autocomplete="email" required>
+                        <span class="val-icon"></span>
+                    </div>
+                    <div class="error-msg" id="email-error"></div>
                 </div>
+
+                <div class="form-group">
+                    <label for="phone">Contact Phone Number</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 019-2834" autocomplete="tel" required>
+                        <span class="val-icon"></span>
+                    </div>
+                    <div class="error-msg" id="phone-error"></div>
+                </div>
+
                 <div class="form-group">
                     <label for="requirements">System Requirements</label>
-                    <textarea id="requirements" name="requirements" rows="6" placeholder="Describe the scope of your website..." required></textarea>
+                    <div class="input-wrapper">
+                        <textarea id="requirements" name="requirements" rows="6" placeholder="Describe the scope of your website..." required></textarea>
+                        <span class="val-icon"></span>
+                    </div>
+                    <div class="error-msg" id="requirements-error"></div>
                 </div>
-                <button type="submit">Deploy Request</button>
+                
+                <button type="submit" id="submit-btn">
+                    <span class="spinner" id="btn-spinner"></span>
+                    <span id="btn-text">Deploy Request</span>
+                </button>
             </form>
+
+            <!-- Dynamic Deployment Terminal (Success Container) -->
+            <div class="terminal-box" id="success-terminal">
+                <div class="terminal-header">
+                    <div class="term-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="term-title">request_deployment.sh</div>
+                </div>
+                <div class="terminal-body" id="terminal-logs"></div>
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript logic -->
+    <script>
+        // --- 1. Dynamic Typing Subtitle ---
+        const phrases = [
+            "Freelance Web Developer",
+            "Golang Backend Architect",
+            "Cloud Solutions Specialist",
+            "Systems Integrator"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const deletingSpeed = 50;
+        const delayBetweenPhrases = 2500;
+        const typingTextEl = document.getElementById("typing-text");
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingTextEl.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingTextEl.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, delayBetweenPhrases);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 300);
+            } else {
+                setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
+            }
+        }
+        
+        // Start typing carousel
+        document.addEventListener("DOMContentLoaded", () => setTimeout(type, 1000));
+
+        // --- 2. Live Input Validation ---
+        const form = document.getElementById("request-form");
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("phone");
+        const reqsInput = document.getElementById("requirements");
+
+        const validators = {
+            name: {
+                validate: val => val.trim().length >= 2 && /^[a-zA-Z\s.\-']+$/.test(val.trim()),
+                message: "Name must be at least 2 characters and contain only letters and standard characters."
+            },
+            email: {
+                validate: val => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val.trim()),
+                message: "Please enter a valid email address (e.g. name@domain.com)."
+            },
+            phone: {
+                validate: val => {
+                    const cleaned = val.trim();
+                    // Match number of digits, spaces, parentheses, hyphens, optional leading plus, length 7 to 20
+                    return cleaned.length >= 7 && cleaned.length <= 20 && /^\+?[0-9\s\-()]+$/.test(cleaned);
+                },
+                message: "Please enter a valid phone number (min 7 digits, digits and spacing formatting only)."
+            },
+            requirements: {
+                validate: val => val.trim().length >= 10,
+                message: "Please provide a detailed specification (minimum 10 characters)."
+            }
+        };
+
+        function validateField(inputEl, key) {
+            const wrapper = inputEl.closest(".input-wrapper");
+            const errorEl = document.getElementById(`${key}-error`);
+            const isValid = validators[key].validate(inputEl.value);
+
+            if (inputEl.value.trim() === "") {
+                // Clear validation states if empty to avoid aggressive initial validation
+                wrapper.classList.remove("valid", "invalid");
+                errorEl.classList.remove("visible");
+                errorEl.style.height = "0";
+                return false;
+            }
+
+            if (isValid) {
+                wrapper.classList.remove("invalid");
+                wrapper.classList.add("valid");
+                errorEl.classList.remove("visible");
+                errorEl.style.height = "0";
+            } else {
+                wrapper.classList.remove("valid");
+                wrapper.classList.add("invalid");
+                errorEl.textContent = validators[key].message;
+                errorEl.classList.add("visible");
+                errorEl.style.height = "auto";
+            }
+
+            return isValid;
+        }
+
+        // Add events for real-time check
+        [
+            { el: nameInput, key: "name" },
+            { el: emailInput, key: "email" },
+            { el: phoneInput, key: "phone" },
+            { el: reqsInput, key: "requirements" }
+        ].forEach(item => {
+            item.el.addEventListener("input", () => validateField(item.el, item.key));
+            item.el.addEventListener("blur", () => validateField(item.el, item.key));
+        });
+
+        // --- 3. AJAX Submission & Terminal Simulator ---
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Run full validations
+            const isNameValid = validateField(nameInput, "name");
+            const isEmailValid = validateField(emailInput, "email");
+            const isPhoneValid = validateField(phoneInput, "phone");
+            const isReqsValid = validateField(reqsInput, "requirements");
+
+            if (!isNameValid || !isEmailValid || !isPhoneValid || !isReqsValid) {
+                // Shake invalid inputs and focus the first invalid one
+                const inputs = [
+                    { isValid: isNameValid, el: nameInput },
+                    { isValid: isEmailValid, el: emailInput },
+                    { isValid: isPhoneValid, el: phoneInput },
+                    { isValid: isReqsValid, el: reqsInput }
+                ];
+
+                let focused = false;
+                inputs.forEach(item => {
+                    if (!item.isValid) {
+                        const wrapper = item.el.closest(".input-wrapper");
+                        wrapper.classList.add("shake", "invalid");
+                        setTimeout(() => wrapper.classList.remove("shake"), 400);
+
+                        if (!focused) {
+                            item.el.focus();
+                            focused = true;
+                        }
+                    }
+                });
+                return;
+            }
+
+            // Lock controls
+            const submitBtn = document.getElementById("submit-btn");
+            const spinner = document.getElementById("btn-spinner");
+            const btnText = document.getElementById("btn-text");
+
+            submitBtn.disabled = true;
+            spinner.style.display = "inline-block";
+            btnText.textContent = "Deploying Architecture...";
+
+            // Values
+            const nameVal = nameInput.value.trim();
+            const emailVal = emailInput.value.trim();
+            const phoneVal = phoneInput.value.trim();
+            const reqsVal = reqsInput.value;
+
+            // Form data formatting
+            const payload = new URLSearchParams();
+            payload.append("name", nameVal);
+            payload.append("email", emailVal);
+            payload.append("phone", phoneVal);
+            payload.append("requirements", reqsVal);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Accept": "application/json"
+                    },
+                    body: payload.toString()
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || "Server responded with an execution failure.");
+                }
+
+                // Transition form out
+                form.style.display = "none";
+                const cardParagraph = document.querySelector("#request-card > p");
+                if (cardParagraph) cardParagraph.style.display = "none";
+                
+                // Show terminal box
+                const terminalBox = document.getElementById("success-terminal");
+                terminalBox.classList.add("visible");
+                
+                // Start typing terminal outputs
+                const terminalLogs = document.getElementById("terminal-logs");
+                const logs = [
+                    { text: "> Initializing request deployment protocols...", class: "term-muted" },
+                    { text: "> Contacting serverless Go gateways...", class: "term-muted" },
+                    { text: "> Connection verified. Handshake completed successfully.", class: "term-success" },
+                    { text: `> Payload payload: name="${nameVal}", email="${emailVal}", phone="${phoneVal}"`, class: "term-muted" },
+                    { text: "> Validating data fields server-side...", class: "" },
+                    { text: "> Data checksum matches. Routing leads into secure channel...", class: "" },
+                    { text: "> Compiling lead summary email to lead recipient...", class: "" },
+                    { text: "> SMTP server verified. Message dispatched to administrator.", class: "term-success" },
+                    { text: "> SMTP server verified. Auto-responder dispatched to client.", class: "term-success" },
+                    { text: "> [OK] Request status: SUCCESS (200 OK)", class: "term-success" },
+                    { text: `> Deployment successful. Welcome aboard, ${nameVal}!`, class: "term-accent" },
+                    { text: "> Satyaveer Singh will review your parameters and follow up soon.", class: "term-accent" },
+                    { text: '<a href="/" style="display:inline-block; margin-top: 15px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 8px 16px; border-radius: 4px; font-weight: bold; transition: all 0.3s ease;">&larr; Return to Portals</a>', class: "term-accent" }
+                ];
+
+                let logIndex = 0;
+                function printLog() {
+                    if (logIndex < logs.length) {
+                        const item = logs[logIndex];
+                        const logDiv = document.createElement("div");
+                        logDiv.className = `term-log ${item.class}`;
+                        logDiv.innerHTML = item.text;
+                        terminalLogs.appendChild(logDiv);
+                        logIndex++;
+                        setTimeout(printLog, 500); // 500ms delay between log lines
+                    }
+                }
+                printLog();
+
+            } catch (err) {
+                // Enable button and alert error
+                submitBtn.disabled = false;
+                spinner.style.display = "none";
+                btnText.textContent = "Deploy Request";
+                
+                alert(`Deployment Error: ${err.message}`);
+            }
+        });
+    </script>
 </body>
 </html>
