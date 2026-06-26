@@ -506,11 +506,11 @@
     <div class="container">
         <div class="pro-card fade-in delay-1">
             <h2>About My Architecture</h2>
-            <p>I engineer highly performant, custom web applications for small businesses. Whether you need a digital storefront for a cake shop or a corporate landing page, I build software that is fast, secure, and tailored to your operations.</p>
+            <p>I engineer highly performant, custom web applications for local Indian businesses, retail stores, and modern startups. Whether you need a digital storefront with UPI payment integration, a billing tool for your retail shop, or a corporate landing page, I build software that is fast, secure, and tailored to your operations.</p>
             <ul>
-                <li>Custom Frontend Design & Development</li>
-                <li>Secure Backend Routing & Processing</li>
-                <li>Responsive, Mobile-First Interfaces</li>
+                <li>Custom Frontend Design & Responsive Interfaces</li>
+                <li>UPI, Razorpay, & Secure Payment Gateways</li>
+                <li>Kirana Store & E-Commerce Digital Solutions</li>
             </ul>
         </div>
 
@@ -538,9 +538,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Contact Phone Number</label>
+                    <label for="phone">Contact Phone Number (Indian / International)</label>
                     <div class="input-wrapper">
-                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 019-2834" autocomplete="tel" required>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" required>
                         <span class="val-icon"></span>
                     </div>
                     <div class="error-msg" id="phone-error"></div>
@@ -549,7 +549,7 @@
                 <div class="form-group">
                     <label for="requirements">System Requirements</label>
                     <div class="input-wrapper">
-                        <textarea id="requirements" name="requirements" rows="6" placeholder="Describe the scope of your website..." required></textarea>
+                        <textarea id="requirements" name="requirements" rows="6" placeholder="Describe the scope of your website (e.g., e-commerce website with UPI payments, booking system, retail billing app...)" required></textarea>
                         <span class="val-icon"></span>
                     </div>
                     <div class="error-msg" id="requirements-error"></div>
@@ -581,9 +581,10 @@
         // --- 1. Dynamic Typing Subtitle ---
         const phrases = [
             "Freelance Web Developer",
+            "UPI & Payment Integration Expert",
+            "Kirana & Store Digitalizer",
             "Golang Backend Architect",
-            "Cloud Solutions Specialist",
-            "Systems Integrator"
+            "Cloud Solutions Specialist"
         ];
         let phraseIndex = 0;
         let charIndex = 0;
@@ -637,11 +638,13 @@
             },
             phone: {
                 validate: val => {
-                    const cleaned = val.trim();
-                    // Match number of digits, spaces, parentheses, hyphens, optional leading plus, length 7 to 20
-                    return cleaned.length >= 7 && cleaned.length <= 20 && /^\+?[0-9\s\-()]+$/.test(cleaned);
+                    const cleaned = val.trim().replace(/[\s\-()]/g, '');
+                    // Indian format: 10 digits starting with 6-9, optionally prefixed with +91, 91, or 0
+                    const isIndian = /^(?:\+91|91|0)?[6-9]\d{9}$/.test(cleaned);
+                    const isGeneric = /^\+?\d{7,15}$/.test(cleaned);
+                    return isIndian || isGeneric;
                 },
-                message: "Please enter a valid phone number (min 7 digits, digits and spacing formatting only)."
+                message: "Please enter a valid phone number (e.g. +91 98765 43210)."
             },
             requirements: {
                 validate: val => val.trim().length >= 10,

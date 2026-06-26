@@ -105,11 +105,18 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	if !emailRegex.MatchString(email) {
 		validationErrors = append(validationErrors, "A valid contact email address is required.")
 	}
+	
+	// Clean phone number for validation checks
+	cleanedPhone := strings.NewReplacer(" ", "", "-", "", "(", "", ")", "").Replace(phone)
+	indianPhoneRegex := regexp.MustCompile(`^(?:\+91|91|0)?[6-9]\d{9}$`)
+	genericPhoneRegex := regexp.MustCompile(`^\+?\d{7,15}$`)
+
 	if phone == "" {
 		validationErrors = append(validationErrors, "Phone number is required.")
-	} else if !phoneRegex.MatchString(phone) {
-		validationErrors = append(validationErrors, "A valid phone number is required (7 to 20 characters, containing only numbers, spaces, parentheses, or dashes).")
+	} else if !indianPhoneRegex.MatchString(cleanedPhone) && !genericPhoneRegex.MatchString(cleanedPhone) {
+		validationErrors = append(validationErrors, "A valid phone number is required (e.g. +91 98765 43210).")
 	}
+	
 	if len(requirements) < 10 {
 		validationErrors = append(validationErrors, "System requirements must be at least 10 characters long.")
 	}
