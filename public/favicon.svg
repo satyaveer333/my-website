@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+  </defs>
+  <!-- Background plate to match theme -->
+  <rect width="100" height="100" rx="22" fill="#080b1a" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2"/>
+  <!-- Geometric polygonal S -->
+  <path d="M 70 25 L 35 25 A 5 5 0 0 0 30 30 L 30 45 A 5 5 0 0 0 35 50 L 65 50 A 5 5 0 0 1 70 55 L 70 70 A 5 5 0 0 1 65 75 L 30 75" 
+        fill="none" stroke="url(#grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Tech accent dots -->
+  <circle cx="70" cy="25" r="4" fill="#818cf8"/>
+  <circle cx="30" cy="75" r="4" fill="#38bdf8"/>
+</svg>
